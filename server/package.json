@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "paquete correspondiente al backend de mi proyecto final",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlvaroDiazBarrios/Proyecto.git"
+  },
+  "author": "Alvaro Diaz Barrios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlvaroDiazBarrios/Proyecto/issues"
+  },
+  "homepage": "https://github.com/AlvaroDiazBarrios/Proyecto#readme"
+}
