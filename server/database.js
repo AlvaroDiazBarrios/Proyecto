@@ -1,9 +1,12 @@
-import mysql from 'mysql'
+import knex from 'knex'
 
-export const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'test',
-    port: '6060',
-})
+export const db = knex({
+    client: 'mysql',
+    connection: {
+      host : 'localhost',
+      user : 'root',
+      password : 'root',
+      database : 'project',
+      port: '6060'
+    }
+}) 
