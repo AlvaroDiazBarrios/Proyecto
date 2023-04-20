@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "paquete correspondiente al backend de mi proyecto final",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/AlvaroDiazBarrios/Proyecto/issues"
   },
-  "homepage": "https://github.com/AlvaroDiazBarrios/Proyecto#readme"
+  "homepage": "https://github.com/AlvaroDiazBarrios/Proyecto#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.22"
+  }
 }
