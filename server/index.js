@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 
 const app = express()
 app.use(express.json()) //Para poder leer json, si no el body viene undefined
+app.use(cors()) //para poder enviar y recibir cosas por axio
 const PORT = 8800
 
 app.listen(PORT, () =>{
@@ -15,8 +16,8 @@ app.post('/register', async (req, res) => {
     try{
         const {username, email, password} = req.body
 
-        const hash = await bcrypt.hash(password, 10);
-        await db('USERS').insert({USERNAME: username, EMAIL: email, HASH_PASS: hash});
+        //const hash = await bcrypt.hash(password, 10);
+        await db('USERS').insert({USERNAME: username, EMAIL: email, HASH_PASS: password});
 
         res.status(200).json('Todo correcto!');
     } catch(err){
