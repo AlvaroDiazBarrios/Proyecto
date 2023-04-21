@@ -16,7 +16,7 @@ app.post('/register', async (req, res) => {
         const {username, email, password} = req.body
 
         const hash = await bcrypt.hash(password, 10);
-        await db('usuario').insert({username: username, email: email, pass: hash});
+        await db('USERS').insert({USERNAME: username, EMAIL: email, HASH_PASS: hash});
 
         res.status(200).json('Todo correcto!');
     } catch(err){
@@ -33,12 +33,16 @@ app.post('/login', async (req, res) => {
             res.status(400).json(`Missing ${!email ? "email" : 'password'}!`)
         }
 
-        const user = await db('usuario').first('*').where({email: email})
+        const user = await db('USERS').first('*').where({email: email})
 
         if(user) {
-            const validPass = await bcrypt.compare(password, user.pass)
+            const validPass = await bcrypt.compare(password, user.HASH_PASS)
             if(validPass) {
-                res.status(200).json('Valid Email and pass!')
+                res.status(200).json({
+                    userID: user.USER_ID,
+                    email: user.EMAIL,
+                    username: user.USERNAME
+                })
             } else {
                 res.status(400).json('Wrong password!')
             }
