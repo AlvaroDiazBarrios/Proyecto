@@ -1,5 +1,6 @@
 import { useState } from "react"
-import './register.css'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import bcrypt from 'bcryptjs'
 import axios from 'axios'
 
@@ -15,6 +16,10 @@ export const Register = () => {
 
     const handelChange = (e) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+
+    const handleCancel = (e) => {
+        e.preventDefault()
     }
 
     const handleRegister = async (e) => {
@@ -38,22 +43,22 @@ export const Register = () => {
     }
 
     return (
-        <>
-            <fieldset className="registration-form" >
-                <legend>User Registration</legend>
-
-                <label htmlFor="registration-username">Username*:</label>
-                <input id="registration-username" className="registration-form-input" type="text" name="username" placeholder="username" onChange={handelChange} />
-
-                <label htmlFor="registration-username">Email*:</label>
-                <input className="registration-form-input" type="email" name="email" placeholder="email" onChange={handelChange} />
-
-                <label htmlFor="registration-username">Password*:</label>
-                <input className="registration-form-input" type="password" name="password" placeholder="password" onChange={handelChange} />
-                <input className="registration-form-input" type="password" name="repeatPassword" placeholder="repeat password" onChange={handelChange} />
-
-                <button className="registration-form-btn" onClick={handleRegister}>Register</button>
-            </fieldset>
-        </>
+        <div className="container p-5">
+            <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" placeholder="Enter username" name="username" onChange={handelChange} />
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" name="email" onChange={handelChange} />
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" name="password" onChange={handelChange} />
+                    <Form.Control type="password" className="mt-1 mb-1" placeholder="Repeat password" name="repeatPassword" onChange={handelChange} />
+                    <Button variant="primary" className="mr-5 pull-right" onClick={handleRegister}>
+                        Submit
+                    </Button>
+                    <Button variant="danger" className="mx-1" onClick={handleCancel}>Cancel</Button>
+                </Form.Group>
+            </Form>
+        </div>
     )
 }
