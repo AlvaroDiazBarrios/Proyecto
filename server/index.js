@@ -32,27 +32,25 @@ app.post('/login', async (req, res) => {
 
         if (!email || !password) {
             res.status(400).json(`Missing ${!email ? "email" : 'password'}!`)
-        }
-
-        const user = await db('USERS').first('*').where({email: email})
-
-        if(user) {
-            const validPass = await bcrypt.compare(password, user.HASH_PASS)
-            if(validPass) {
-                res.status(200).json({
-                    userID: user.USER_ID,
-                    email: user.EMAIL,
-                    username: user.USERNAME
-                })
-            } else {
-                res.status(400).json('Wrong password!')
-            }
         } else {
-            res.status(404).json('User not found!')
+            const user = await db('USERS').first('*').where({email: email})
+            if(user) {
+                const validPass = await bcrypt.compare(password, user.HASH_PASS)
+                if(validPass) {
+                    res.status(200).json({
+                        userID: user.USER_ID,
+                        email: user.EMAIL,
+                        username: user.USERNAME
+                    })
+                } else {
+                    res.status(400).json('Wrong password!')
+                }
+            } else {
+                res.status(404).json('User not found!')
+            }
         }
-
     } catch(e) {
-        // console.log(e); // Uncomment if needed for debug
+        console.log(e)
         res.status(400).json('Something broke!')
     }
 })

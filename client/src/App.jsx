@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Register } from './pages/register/Register'
+import { MainView } from './pages/main/MainView'
+import { Login } from './pages/login/Login'
+import { Welcome } from './pages/welcome/Welcome'
 
 export default function App() {
 
@@ -7,9 +10,10 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Register />} />
-          {/*<Route path='/add' element={<Add />} />
-          <Route path='/update/:id' element={<Update />} /> */}
+          <Route path='/' element={<Welcome />} />
+          <Route path='/main' element={<MainView />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>

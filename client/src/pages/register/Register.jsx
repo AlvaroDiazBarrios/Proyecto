@@ -1,8 +1,9 @@
 import { useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import bcrypt from 'bcryptjs'
-import axios from 'axios'
+import bcrypt from 'bcryptjs';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 
 export const Register = () => {
@@ -13,6 +14,8 @@ export const Register = () => {
         password: '',
         repeatPassword: ''
     })
+    const navigate = useNavigate()
+
 
     const handelChange = (e) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -20,6 +23,7 @@ export const Register = () => {
 
     const handleCancel = (e) => {
         e.preventDefault()
+        navigate('/')
     }
 
     const handleRegister = async (e) => {
@@ -45,7 +49,7 @@ export const Register = () => {
     return (
         <div className="container p-5">
             <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3 bg-dark text-light rounded p-3" controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="text" placeholder="Enter username" name="username" onChange={handelChange} />
                     <Form.Label>Email address</Form.Label>
@@ -53,10 +57,10 @@ export const Register = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" name="password" onChange={handelChange} />
                     <Form.Control type="password" className="mt-1 mb-1" placeholder="Repeat password" name="repeatPassword" onChange={handelChange} />
-                    <Button variant="primary" className="mr-5 pull-right" onClick={handleRegister}>
+                    <Button variant="primary" className="my-3 pull-right" onClick={handleRegister}>
                         Submit
                     </Button>
-                    <Button variant="danger" className="mx-1" onClick={handleCancel}>Cancel</Button>
+                    <Button variant="danger" className="m-3" onClick={handleCancel}>Cancel</Button>
                 </Form.Group>
             </Form>
         </div>
