@@ -1,7 +1,6 @@
 import express from 'express'
 import { db } from './database.js'
 import cors from 'cors'
-import bcrypt from 'bcryptjs'
 
 const app = express()
 app.use(express.json()) //Para poder leer json, si no el body viene undefined
@@ -26,28 +25,34 @@ app.post('/register', async (req, res) => {
     }
 })
 
+app.post('/getPass', async (req, res) => {
+    try {
+        const email = req.body.email;
+
+        const user = await db('USERS').first('*').where({email: email})
+        if(user) {
+            res.status(200).json({
+                pass: user.HASH_PASS
+            })
+        } else {
+            res.status(404).json('User not found!')
+        }
+    } catch(e) {
+        console.log(e)
+        res.status(400).json('Something broke!')
+    }
+})
+
 app.post('/login', async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const email = req.body.email;
 
-        if (!email || !password) {
-            res.status(400).json(`Missing ${!email ? "email" : 'password'}!`)
-        } else {
-            const user = await db('USERS').first('*').where({email: email})
-            if(user) {
-                const validPass = await bcrypt.compare(password, user.HASH_PASS)
-                if(validPass) {
-                    res.status(200).json({
-                        userID: user.USER_ID,
-                        email: user.EMAIL,
-                        username: user.USERNAME
-                    })
-                } else {
-                    res.status(400).json('Wrong password!')
-                }
-            } else {
-                res.status(404).json('User not found!')
-            }
+        const user = await db('USERS').first('*').where({email: email})
+        if(user) {
+            res.status(200).json({
+                username: user.USERNAME,
+                userId: user.USER_ID
+            })
         }
     } catch(e) {
         console.log(e)

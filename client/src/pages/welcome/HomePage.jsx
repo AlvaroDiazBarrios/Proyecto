@@ -1,6 +1,6 @@
 import { InputText } from "primereact/inputtext"
+import bcrypt from 'bcryptjs'
 import { Toast } from 'primereact/toast'
-import { Password } from "primereact/password"
 import { Menubar } from 'primereact/menubar'
 import { Card } from 'primereact/card'
 import { Dialog } from 'primereact/dialog'
@@ -9,6 +9,7 @@ import { useRef, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import "/node_modules/primeflex/primeflex.css"
+
 export const HomePage = () => {
 
     const [login, setLogin] = useState({
@@ -18,8 +19,9 @@ export const HomePage = () => {
 
     const toast = useRef(null)
 
-    const [displayDialogLogIn, setDisplayDialogLogIn] = useState(false);
-    const [displayDialogSignIn, setDisplayDialogSignIn] = useState(false);
+    const [displayDialogLogIn, setDisplayDialogLogIn] = useState(false)
+    const [displayDialogSignIn, setDisplayDialogSignIn] = useState(false)
+
 
     const navigate = useNavigate()
 
@@ -38,26 +40,52 @@ export const HomePage = () => {
     const handleLogIn = async (e) => {
         e.preventDefault()
 
-        try {
-            await axios.post('http://localhost:8800/login', login).then((response) => {
-                const data = response.data
-                navigate('/main', { state: data })
-            }).catch((error) => {
-                if (error.response && error.response.data) {
-                    const fail = error.response.data
-                    showError(fail)
-                } else {
-                    showError(error)
-                }
-            })
-        } catch (err) {
-            console.log(err)
+        var post = true
+        const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!login.email || !login.password) {
+            showError(`Misssing ${!login.email ? "Email" : "Password"}`)
+            post = false
         }
 
+        if (!checkEmail.test(login.email)) {
+            showError("Please introduce a valid mail format")
+            post = false
+        }
+
+        if (post) {
+            try {
+                await axios.post('http://localhost:8800/getPass', { 'email': login.email }).then(async (response) => {
+                    const hashPass = response.data.pass
+                    const validPass = await bcrypt.compare(login.password, hashPass)
+
+                    if (validPass) {
+                        await axios.post('http://localhost:8800/login', { 'email': login.email }).then((response) => {
+                            const data = response.data
+                            navigate('/main', { state: data })
+                        })
+                    } else {
+                        showError('Invalid Password. Try Again')
+                    }
+
+
+                }).catch((error) => {
+                    if (error.response && error.response.data) {
+                        const fail = error.response.data
+                        showError(fail)
+                    } else {
+                        showError(error)
+                    }
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        }
     }
+
     const hideDialogLogIn = () => {
         setDisplayDialogLogIn(false);
     }
+
     const hideDialogSignIn = () => {
         setDisplayDialogSignIn(false);
     }
@@ -78,53 +106,70 @@ export const HomePage = () => {
         setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
+    const botoneLogIn = (
+        <div>
+            <Button label="Log In" icon="pi pi-sign-in" onClick={handleLogIn} />
+        </div>
+    )
+
     return (
         <div className="homePage">
             <header>
                 <Menubar model={items} className="bg-purple-200 border-noround " />
-                <Dialog header="Log In" position="top" visible={displayDialogLogIn} onHide={hideDialogLogIn} draggable={false}>
+                <Dialog header="Log In" position="top" visible={displayDialogLogIn} onHide={hideDialogLogIn} draggable={false} footer={botoneLogIn}>
                     <Toast ref={toast} />
-                    <InputText name="email" onChange={handleChange} className="w-full mb-3" placeholder="email" />
-                    <InputText type="password" name="password" onChange={handleChange} className="w-full mb-3" placeholder="password" />
-                    <Button label="Log In" icon="pi pi-user" className="w-full" onClick={handleLogIn} />
+                    <div className="grid">
+                        <div className="col-12">
+                            <span className="p-float-label mt-5">
+                                <InputText className="w-full" type="email" name="email" id="email" onChange={handleChange} autoFocus />
+                                <label htmlFor="email">Email</label>
+                            </span>
+                        </div>
+                        <div className="col-12">
+                            <span className="p-float-label mt-5" >
+                                <InputText className="w-full" type="password" name="password" id="password" onChange={handleChange} />
+                                <label htmlFor="password">Password</label>
+                            </span>
+                        </div>
+                    </div>
                 </Dialog>
                 <Dialog header="Sign In" position="top" visible={displayDialogSignIn} onHide={hideDialogSignIn} draggable={false} >
                     <div className="grid">
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText id="nombre" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText id="nombre" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText id="nombre" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText id="nombre" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText id="nombre" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                         <div className="col-6">
-                            <spam className="p-float-label mt-5">
+                            <span className="p-float-label mt-5">
                                 <InputText type="password" className="w-full" />
                                 <label htmlFor="nombre">Name</label>
-                            </spam>
+                            </span>
                         </div>
                     </div>
                 </Dialog>
