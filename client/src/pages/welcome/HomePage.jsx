@@ -33,6 +33,7 @@ export const HomePage = () => {
         "Non Binary"
     ]
     const toast = useRef(null)
+    const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     const [displayDialogLogIn, setDisplayDialogLogIn] = useState(false)
     const [displayDialogSignIn, setDisplayDialogSignIn] = useState(false)
@@ -52,11 +53,14 @@ export const HomePage = () => {
         toast.current.show({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
     }
 
+    const showSuccess = (message) => {
+        toast.current.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
+    }
+
     const handleLogIn = async (e) => {
         e.preventDefault()
 
         var post = true
-        const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!login.email || !login.password) {
             showError(`Missing ${!login.email ? "Email" : "Password"}`)
             post = false
@@ -123,11 +127,38 @@ export const HomePage = () => {
         if (!signIn.email) {
             showError("Email cannot be empty")
             post = false
+        } else {
+            if (!checkEmail.test(signIn.email)) {
+                showError('Please Introduce a valid email format')
+                post = false
+            }
         }
 
         if (!signIn.password) {
             showError("Password cannot be empty")
             post = false
+        }
+
+        if (post) {
+            try {
+
+                const hash = await bcrypt.hash(signIn.password, 10)
+                const data = {
+                    name: signIn.name,
+                    surname: signIn.surname,
+                    gender: signIn.gender,
+                    username: signIn.username,
+                    email: signIn.email,
+                    password: hash
+                }
+                await axios.post('http://localhost:8800/register', data).then((response) => {
+                    showSuccess(response.data)
+                }).catch((error) => {
+                    showError(error.response.data)
+                })
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
 

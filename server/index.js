@@ -15,10 +15,13 @@ app.post('/register', async (req, res) => {
     try{
         const {name, surname, gender, username, email, password} = req.body
 
-        //const hash = await bcrypt.hash(password, 10);
-        await db('USERS').insert({NAME: name, SURNAME: surname, GENDER: gender, USERNAME: username, EMAIL: email, HASH_PASS: password});
-
-        res.status(200).json('Todo correcto!');
+        const user = await db('USERS').first('*').where({email: email})
+        if(!user){
+            await db('USERS').insert({NAME: name, SURNAME: surname, GENDER: gender, USERNAME: username, EMAIL: email, HASH_PASS: password});
+            res.status(200).json('Account created!');
+        } else {
+            res.status(401).json('Email already in use')
+        }
     } catch(err){
         console.log(err);
         res.status(400).json(err);
