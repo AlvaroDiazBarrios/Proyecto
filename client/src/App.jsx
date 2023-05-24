@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Register } from './pages/register/Register'
 import { MainView } from './pages/main/MainView'
 import { Login } from './pages/login/Login'
-import { Welcome } from './pages/welcome/Welcome'
+import { HomePage } from './pages/welcome/HomePage'
 
 export default function App() {
 
@@ -10,7 +10,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Welcome />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/main' element={<MainView />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
