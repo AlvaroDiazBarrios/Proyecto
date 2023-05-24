@@ -13,10 +13,10 @@ app.listen(PORT, () =>{
 
 app.post('/register', async (req, res) => {
     try{
-        const {username, email, password} = req.body
+        const {name, surname, gender, username, email, password} = req.body
 
         //const hash = await bcrypt.hash(password, 10);
-        await db('USERS').insert({USERNAME: username, EMAIL: email, HASH_PASS: password});
+        await db('USERS').insert({NAME: name, SURNAME: surname, GENDER: gender, USERNAME: username, EMAIL: email, HASH_PASS: password});
 
         res.status(200).json('Todo correcto!');
     } catch(err){

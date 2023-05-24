@@ -1,4 +1,5 @@
 import { InputText } from "primereact/inputtext"
+import { Dropdown } from 'primereact/dropdown'
 import bcrypt from 'bcryptjs'
 import { Toast } from 'primereact/toast'
 import { Menubar } from 'primereact/menubar'
@@ -17,6 +18,20 @@ export const HomePage = () => {
         password: ''
     })
 
+    const [signIn, setSignIn] = useState({
+        name: '',
+        surname: '',
+        gender: '',
+        username: '',
+        email: '',
+        password: ''
+    })
+
+    const genders = [
+        "Male",
+        "Female",
+        "Non Binary"
+    ]
     const toast = useRef(null)
 
     const [displayDialogLogIn, setDisplayDialogLogIn] = useState(false)
@@ -43,13 +58,15 @@ export const HomePage = () => {
         var post = true
         const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!login.email || !login.password) {
-            showError(`Misssing ${!login.email ? "Email" : "Password"}`)
+            showError(`Missing ${!login.email ? "Email" : "Password"}`)
             post = false
         }
 
-        if (!checkEmail.test(login.email)) {
-            showError("Please introduce a valid mail format")
-            post = false
+        if (login.email) {
+            if (!checkEmail.test(login.email)) {
+                showError("Please introduce a valid mail format")
+                post = false
+            }
         }
 
         if (post) {
@@ -59,8 +76,8 @@ export const HomePage = () => {
                     const validPass = await bcrypt.compare(login.password, hashPass)
 
                     if (validPass) {
-                        await axios.post('http://localhost:8800/login', { 'email': login.email }).then((response) => {
-                            const data = response.data
+                        await axios.post('http://localhost:8800/login', { 'email': login.email }).then((res) => {
+                            const data = res.data
                             navigate('/main', { state: data })
                         })
                     } else {
@@ -69,16 +86,48 @@ export const HomePage = () => {
 
 
                 }).catch((error) => {
-                    if (error.response && error.response.data) {
-                        const fail = error.response.data
-                        showError(fail)
-                    } else {
-                        showError(error)
-                    }
+                    const fail = error.response.data
+                    showError(fail)
                 })
             } catch (err) {
                 console.log(err)
             }
+        }
+    }
+
+    const handleSignIn = async (e) => {
+        e.preventDefault()
+
+        var post = true
+
+        if (!signIn.name) {
+            showError("Name cannot be empty")
+            post = false
+        }
+
+        if (!signIn.surname) {
+            showError("Surname cannot be empty")
+            post = false
+        }
+
+        if (!signIn.gender) {
+            showError("Gender cannot be empty")
+            post = false
+        }
+
+        if (!signIn.username) {
+            showError("Username cannot be empty")
+            post = false
+        }
+
+        if (!signIn.email) {
+            showError("Email cannot be empty")
+            post = false
+        }
+
+        if (!signIn.password) {
+            showError("Password cannot be empty")
+            post = false
         }
     }
 
@@ -102,13 +151,24 @@ export const HomePage = () => {
             command: signInClick
         }
     ]
-    const handleChange = (e) => {
+
+    const handleChangeLogIn = (e) => {
         setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    const botoneLogIn = (
+    const handleChangeSignIn = (e) => {
+        setSignIn((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+
+    const botonLogIn = (
         <div>
             <Button label="Log In" icon="pi pi-sign-in" onClick={handleLogIn} />
+        </div>
+    )
+
+    const botonSignIn = (
+        <div>
+            <Button label="Sign In" icon="pi pi-check" onClick={handleSignIn} />
         </div>
     )
 
@@ -116,59 +176,57 @@ export const HomePage = () => {
         <div className="homePage">
             <header>
                 <Menubar model={items} className="bg-purple-200 border-noround " />
-                <Dialog header="Log In" position="top" visible={displayDialogLogIn} onHide={hideDialogLogIn} draggable={false} footer={botoneLogIn}>
+                <Dialog header="Log In" position="top" visible={displayDialogLogIn} onHide={hideDialogLogIn} draggable={false} footer={botonLogIn}>
                     <Toast ref={toast} />
                     <div className="grid">
                         <div className="col-12">
                             <span className="p-float-label mt-5">
-                                <InputText className="w-full" type="email" name="email" id="email" onChange={handleChange} autoFocus />
+                                <InputText className="w-full" type="email" name="email" id="email" onChange={handleChangeLogIn} autoFocus />
                                 <label htmlFor="email">Email</label>
                             </span>
                         </div>
                         <div className="col-12">
                             <span className="p-float-label mt-5" >
-                                <InputText className="w-full" type="password" name="password" id="password" onChange={handleChange} />
+                                <InputText className="w-full" type="password" name="password" id="password" onChange={handleChangeLogIn} />
                                 <label htmlFor="password">Password</label>
                             </span>
                         </div>
                     </div>
                 </Dialog>
-                <Dialog header="Sign In" position="top" visible={displayDialogSignIn} onHide={hideDialogSignIn} draggable={false} >
+                <Dialog header="Sign In" position="top" visible={displayDialogSignIn} onHide={hideDialogSignIn} draggable={false} footer={botonSignIn}  >
+                    <Toast ref={toast} position="bottom-left" />
                     <div className="grid">
                         <div className="col-6">
                             <span className="p-float-label mt-5">
-                                <InputText id="nombre" className="w-full" />
+                                <InputText value={signIn.name} id="nombre" name="name" className="w-full" onChange={handleChangeSignIn} autoFocus />
                                 <label htmlFor="nombre">Name</label>
                             </span>
                         </div>
                         <div className="col-6">
                             <span className="p-float-label mt-5">
-                                <InputText id="nombre" className="w-full" />
-                                <label htmlFor="nombre">Name</label>
+                                <InputText value={signIn.username} id="username" name="username" className="w-full" onChange={handleChangeSignIn} />
+                                <label htmlFor="username">Username</label>
                             </span>
                         </div>
                         <div className="col-6">
                             <span className="p-float-label mt-5">
-                                <InputText id="nombre" className="w-full" />
-                                <label htmlFor="nombre">Name</label>
+                                <InputText value={signIn.surname} id="surname" name="surname" className="w-full" onChange={handleChangeSignIn} />
+                                <label htmlFor="surname">Surname</label>
                             </span>
                         </div>
                         <div className="col-6">
                             <span className="p-float-label mt-5">
-                                <InputText id="nombre" className="w-full" />
-                                <label htmlFor="nombre">Name</label>
+                                <InputText value={signIn.email} id="email" name="email" className="w-full" onChange={handleChangeSignIn} />
+                                <label htmlFor="email">Email</label>
                             </span>
                         </div>
                         <div className="col-6">
-                            <span className="p-float-label mt-5">
-                                <InputText id="nombre" className="w-full" />
-                                <label htmlFor="nombre">Name</label>
-                            </span>
+                            <Dropdown value={signIn.gender} onChange={handleChangeSignIn} name="gender" className="w-full mt-5" placeholder="Gender" options={genders} />
                         </div>
                         <div className="col-6">
                             <span className="p-float-label mt-5">
-                                <InputText type="password" className="w-full" />
-                                <label htmlFor="nombre">Name</label>
+                                <InputText value={signIn.password} type="password" id="password" name="password" className="w-full" onChange={handleChangeSignIn} />
+                                <label htmlFor="nombre">Password</label>
                             </span>
                         </div>
                     </div>
