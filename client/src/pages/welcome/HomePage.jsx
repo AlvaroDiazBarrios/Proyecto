@@ -204,9 +204,9 @@ export const HomePage = () => {
     )
 
     return (
-        <div className="homePage">
+        <>
             <header>
-                <Menubar model={items} className="bg-purple-200 border-noround " />
+                <Menubar model={items} className="bg-purple-200 border-noround w-full h-full" />
                 <Dialog header="Log In" position="top" visible={displayDialogLogIn} onHide={hideDialogLogIn} draggable={false} footer={botonLogIn}>
                     <Toast ref={toast} />
                     <div className="grid">
@@ -274,6 +274,6 @@ export const HomePage = () => {
                     Voluptate eu ad non nisi. Commodo consequat aliquip incididunt laborum officia officia consectetur esse qui qui deserunt. Sit qui ullamco cillum id adipisicing laborum occaecat reprehenderit minim. Aliquip aliqua ut Lorem laboris nisi Lorem dolore excepteur.
                 </p>
             </Card>
-        </div>
+        </>
     )
 }
