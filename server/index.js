@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 import { db } from './database.js'
 import cors from 'cors'
 
@@ -28,9 +28,60 @@ app.post('/register', async (req, res) => {
     }
 })
 
+app.post('/newCharacter', async (req, res) => {
+    try{
+        const{userId, name, birthPlace, pronouns, occupation, residence, age, characteristics, skills} = req.body
+
+        await db('CHARACTERS').insert({
+            USER_ID: userId,
+            NAME: name,
+            BIRTH_PLACE: birthPlace,
+            PRONOUNS: pronouns,
+            OCCUPATION: occupation,
+            RESIDENCE: residence,
+            AGE: age,
+            CHARACTERISTICS: JSON.stringify(characteristics),
+            SKILLS: JSON.stringify(skills)
+        })
+
+        res.status(200).json('Todo ok')
+    } catch (err){
+        res.status(400).json(err)
+    }
+})
+
+app.post('/getAllCharacters', async (req, res) => {
+    try{
+        const userId = req.body.userId
+        var data = []
+        const characters = await db('CHARACTERS').select("*").where({USER_ID: userId})
+        
+        if(characters){
+            characters.forEach(character => {
+                data.push({
+                    characterId: character.CHARACTER_ID,
+                    name: character.NAME,
+                    birthPlace: character.BIRTH_PLACE,
+                    pronouns: character.PRONOUNS,
+                    occupation: character.OCCUPATION,
+                    residence: character.RESIDENCE,
+                    age: character.AGE,
+                    characteristics: JSON.parse(character.CHARACTERISTICS),
+                    skills: JSON.parse(character.SKILLS)
+                })
+            })
+            res.status(200).json(data)
+        }
+
+    } catch(err) {
+        console.log(err);
+        res.status(408).json(err)
+    }
+})
+
 app.post('/getPass', async (req, res) => {
     try {
-        const email = req.body.email;
+        const email = req.body.email
 
         const user = await db('USERS').first('*').where({email: email})
         if(user) {
