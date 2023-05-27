@@ -50,6 +50,17 @@ app.post('/newCharacter', async (req, res) => {
     }
 })
 
+app.post('/deleteCharacter', async (req, res) => {
+    try{
+        const characterId = req.body.characterId
+        await db('CHARACTERS').delete("*").where({CHARACTER_ID: characterId})
+
+        res.status(200).json('Character successfully removed')
+    } catch(err) {
+        res.status(405).json(err)
+    }
+})
+
 app.post('/getAllCharacters', async (req, res) => {
     try{
         const userId = req.body.userId
