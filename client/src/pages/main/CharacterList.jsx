@@ -25,9 +25,9 @@ export const CharacterList = ({ characters, username }) => {
         })
     }
 
-    const handleDeleteCharacter = async (characterId) => {
+    const handleDeleteCharacter = async (character) => {
         try {
-            const response = await axios.post("http://localhost:8800/deleteCharacter", { characterId: characterId })
+            const response = await axios.post("http://localhost:8800/deleteCharacter", { characterId: character.characterId })
             showSuccess(response.data)
             setTimeout(() => {
                 window.location.reload()
@@ -37,20 +37,20 @@ export const CharacterList = ({ characters, username }) => {
         }
     }
 
-    const handleGoToCharacter = (characterId) => {
+    const handleGoToCharacter = (character) => {
 
         const data = {
             username: username,
-            characterId: characterId
+            character: character
         }
 
         navigate("/characterSheet", { state: data })
     }
 
-    const footer = (characterId) => (
+    const footer = (character) => (
         <div className="flex flex-wrap justify-content-end gap-2">
-            <Button severity='danger' icon="pi pi-trash" rounded onClick={() => confirmDelete(characterId)} />
-            <Button icon="pi pi-chevron-right" rounded onClick={() => handleGoToCharacter(characterId)} />
+            <Button severity='danger' icon="pi pi-trash" rounded onClick={() => confirmDelete(character)} />
+            <Button icon="pi pi-chevron-right" rounded onClick={() => handleGoToCharacter(character)} />
         </div>
     )
 
@@ -61,7 +61,7 @@ export const CharacterList = ({ characters, username }) => {
                 {
                     characters.map(character => (
                         <div className="col-4 gap-2" key={character.characterId}>
-                            <Card className='surface-200 border-round-md mr-2 mt-2' key={character.characterId} title={character.name} subTitle={character.surname} footer={() => footer(character.characterId)} >Descripción de hasta 100 palabras</Card>
+                            <Card className='surface-200 border-round-md mr-2 mt-2' key={character.characterId} title={character.name} subTitle={character.surname} footer={() => footer(character)} >Descripción de hasta 100 palabras</Card>
                         </div>
                     ))
                 }

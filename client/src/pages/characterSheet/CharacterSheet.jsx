@@ -4,10 +4,11 @@ import { MenuButton } from "../main/MenuButton"
 export const CharacterSheet = () => {
     const location = useLocation()
     const username = location.state.username
-    const characterId = location.state.characterId
+    const character = location.state.character
 
     /*TODO:
-        fetchData() y revisar si me lo puedo traer ya de golpe que creo que sí
+     [x] Fetch Data
+     [] Programar la interfaz 
     */
 
     return (
