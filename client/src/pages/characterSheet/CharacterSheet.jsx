@@ -13,15 +13,15 @@ export const CharacterSheet = () => {
     return (
         <div class="characterSheet">
             <div class="flex flex-column flex-wrap">
-                <div className="flex flex-row">
-                    <div class="flex bg-blue-500 ">
+                <div className="flex flex-row m-2">
+                    <div class="flex ">
                         <MenuButtonChSh user={user} edit={edit} setEdit={setEdit} character={character} setCharacter={setCharacter} />
                     </div>
-                    <div className="flex flex-column bg-red-500 flex-grow-1">
+                    <div className="flex flex-column flex-grow-1">
                         <Information edit={edit} character={character} setCharacter={setCharacter} />
                     </div>
                 </div>
-                <div className="flex ">
+                <div className="flex flex-column flex-grow-1 m-2 ">
                     <Characteristics />
                 </div>
             </div>

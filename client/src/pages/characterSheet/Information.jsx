@@ -1,5 +1,6 @@
 import { InputText } from 'primereact/inputtext'
 import { InputNumber } from 'primereact/inputnumber'
+import { Fieldset } from 'primereact/fieldset'
 import { PropTypes } from 'prop-types'
 
 export const Information = ({ edit, character, setCharacter }) => {
@@ -9,7 +10,7 @@ export const Information = ({ edit, character, setCharacter }) => {
     }
 
     return (
-        <div className="characterInfo">
+        <Fieldset legend="Character Info" >
 
             <div className="flex flex-column mt-3 ">
                 <div className="flex justify-content-evenly mt-2 flex-row " >
@@ -45,7 +46,7 @@ export const Information = ({ edit, character, setCharacter }) => {
                 </div>
             </div>
 
-        </div>
+        </Fieldset>
     )
 }
 
