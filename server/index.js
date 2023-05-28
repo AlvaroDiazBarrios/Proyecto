@@ -50,6 +50,27 @@ app.post('/newCharacter', async (req, res) => {
     }
 })
 
+app.post('/updateCharacter', async (req, res) => {
+    try{
+        const{characterId, name, birthPlace, pronouns, occupation, residence, age, characteristics, skills} = req.body
+
+        await db('CHARACTERS').update({
+            NAME: name,
+            BIRTH_PLACE: birthPlace,
+            PRONOUNS: pronouns,
+            OCCUPATION: occupation,
+            RESIDENCE: residence,
+            AGE: age,
+            CHARACTERISTICS: JSON.stringify(characteristics),
+            SKILLS: JSON.stringify(skills)
+        }).where({CHARACTER_ID: characterId})
+
+        res.status(200).json('Todo ok')
+    } catch (err){
+        res.status(400).json(err)
+    }
+})
+
 app.post('/deleteCharacter', async (req, res) => {
     try{
         const characterId = req.body.characterId

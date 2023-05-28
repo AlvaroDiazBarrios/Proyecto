@@ -7,7 +7,7 @@ import { Toast } from 'primereact/toast'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { useNavigate } from 'react-router-dom'
 
-export const CharacterList = ({ characters, username }) => {
+export const CharacterList = ({ characters, user }) => {
 
     const toast = useRef(null)
     const navigate = useNavigate()
@@ -40,7 +40,7 @@ export const CharacterList = ({ characters, username }) => {
     const handleGoToCharacter = (character) => {
 
         const data = {
-            username: username,
+            user: user,
             character: character
         }
 
@@ -56,7 +56,7 @@ export const CharacterList = ({ characters, username }) => {
 
     return (
         <div className="flex-grow-1">
-            {characters.length === 0 && <Card title="Wow!" className='surface-200 m-5' >Nothing to see here yet.</Card>}
+            {characters.length === 0 && <Card title="Wow!" >Nothing to see here yet.</Card>}
             <div className="grid">
                 {
                     characters.map(character => (
@@ -83,5 +83,5 @@ CharacterList.propTypes = {
             pronouns: PropTypes.string.isRequired
         })
     ).isRequired,
-    username: PropTypes.string
+    user: PropTypes.any
 }
