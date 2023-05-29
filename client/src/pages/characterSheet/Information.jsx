@@ -13,7 +13,7 @@ export const Information = ({ edit, character, setCharacter }) => {
         <Fieldset legend="Character Info" >
 
             <div className="flex flex-column mt-3 ">
-                <div className="flex justify-content-evenly mt-2 flex-row " >
+                <div className="flex justify-content-evenly mt-2 md:flex-row flex-column row-gap-5 " >
                     <span className='p-float-label'>
                         <InputText style={!edit ? { pointerEvents: 'none' } : {}} id='name' name='name' value={character.name} onChange={handleChange} />
                         <label htmlFor='name' >Name</label>
@@ -30,7 +30,7 @@ export const Information = ({ edit, character, setCharacter }) => {
             </div>
 
             <div className="flex flex-column mt-5 ">
-                <div className="flex flex-row justify-content-evenly" >
+                <div className="flex md:flex-row flex-column justify-content-evenly row-gap-5" >
                     <span className='p-float-label'>
                         <InputText style={!edit ? { pointerEvents: 'none' } : {}} id='occupation' name='occupation' value={character.occupation} onChange={handleChange} />
                         <label htmlFor='occupation' >Occupation</label>

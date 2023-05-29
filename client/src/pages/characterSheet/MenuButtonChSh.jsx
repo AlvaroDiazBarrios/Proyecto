@@ -5,7 +5,9 @@ import axios from 'axios'
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter }) => {
+//TODO:
+// Investigar porque no funciona el cancel con las characteristics
+export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter, skills, characteristics }) => {
 
     const [oldCharacter, setOldCharacter] = useState(character)
     const navigate = useNavigate()
@@ -14,9 +16,20 @@ export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter })
 
         if (edit) {
             try {
-                const response = await axios.post('http://localhost:8800/updateCharacter', character)
+                const env = {
+                    characterId: character.characterId,
+                    name: character.name,
+                    birthPlace: character.birthPlace,
+                    pronouns: character.pronouns,
+                    occupation: character.occupation,
+                    residence: character.residence,
+                    age: character.age,
+                    characteristics: characteristics,
+                    skills: character.skills
+                }
+                const response = await axios.post('http://localhost:8800/updateCharacter', env)
                 const data = response.data
-                setOldCharacter(character)
+                setOldCharacter(env)
             } catch (err) {
                 console.log(err);
             }
