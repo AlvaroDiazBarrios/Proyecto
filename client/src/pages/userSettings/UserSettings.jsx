@@ -6,18 +6,35 @@ import { ButtonsSettings } from "./ButtonsSettings"
 
 export const UserSettings = () => {
     const location = useLocation()
-    const [user, setUser] = useState(location.state)
-    const [userBeforeChanges, setUserBerforeChanges] = useState(location.state)
+    const [user, setUser] = useState({
+        userId: location.state.userId,
+        email: location.state.email,
+        username: location.state.username,
+        name: location.state.name,
+        surname: location.state.surname,
+        gender: location.state.gender,
+        password: ''
+    })
+
+    const [userBeforeChanges, setUserBerforeChanges] = useState({
+        userId: location.state.userId,
+        email: location.state.email,
+        username: location.state.username,
+        name: location.state.name,
+        surname: location.state.surname,
+        gender: location.state.gender,
+        password: ''
+    })
 
     return (
-        <div className="flex md:flex-row flex-column" style={{ border: '2px dashed red' }} >
+        <div className="flex md:flex-row flex-column"  >
             <ButtonsSettings userBeforeChanges={userBeforeChanges} setUserBeforeChange={setUserBerforeChanges} user={user} />
-            <div className="flex flex-column m-2 md:w-11" style={{ border: '2px dashed white' }}>
-                <div className="flex justify-content-center" style={{ border: '2px dashed green' }}>
+            <div className="flex flex-column m-2 md:w-11" >
+                <div className="flex justify-content-center" >
                     <PersonalInformation user={user} setUser={setUser} />
                 </div>
-                <div className="flex justify-content-center" style={{ border: '2px dashed orange' }} >
-                    <AccountInformation />
+                <div className="flex justify-content-center"  >
+                    <AccountInformation user={user} setUser={setUser} />
                 </div>
             </div>
         </div>

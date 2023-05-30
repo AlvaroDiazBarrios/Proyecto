@@ -132,16 +132,28 @@ app.post('/getPass', async (req, res) => {
 app.post('/updateUser', async (req, res) => {
     try{
         const {userId, name, surname, gender, username, email, password} = req.body
+        if(!password){
+            await db('USERS').update({
+                NAME: name,
+                SURNAME: surname,
+                GENDER: gender,
+                USERNAME: username,
+                EMAIL: email
+            }).where({USER_ID: userId})
 
-        await db('USERS').update({
-            NAME: name,
-            SURNAME: surname,
-            GENDER: gender,
-            USERNAME: username,
-        }).where({USER_ID: userId})
+            res.status(200).json('User updated correctly!')
+        } else {
+            await db('USERS').update({
+                NAME: name,
+                SURNAME: surname,
+                GENDER: gender,
+                USERNAME: username,
+                EMAIL: email,
+                HASH_PASS: password
+            }).where({USER_ID: userId})
 
-        res.status(200).json('Todo ok')
-
+            res.status(200).json('User updated correctly!')
+        }
     } catch (err) {
         console.log(err)
         res.status(401).json(err)
@@ -156,6 +168,7 @@ app.post('/login', async (req, res) => {
         if(user) {
             res.status(200).json({
                 userId: user.USER_ID,
+                email: user.EMAIL,
                 username: user.USERNAME,
                 name: user.NAME,
                 surname: user.SURNAME,

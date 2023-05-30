@@ -22,17 +22,17 @@ export const PersonalInformation = ({ user, setUser }) => {
     }
 
     return (
-        <Fieldset legend="Personal Information" className="m-2" style={{ width: '95%' }} >
-            <div className="flex flex-column row-gap-5" style={{ border: '2px dashed white' }}>
-                <div className="p-float-label" style={{ border: '2px dashed red' }}>
+        <Fieldset legend="Personal Information" className="m-2 " style={{ width: '100%' }}  >
+            <div className="flex flex-column row-gap-5" >
+                <div className="p-float-label" >
                     <InputText value={user.name} id="name" name="name" maxLength={15} className="md:w-6 w-12" onChange={handleChange} />
                     <label htmlFor="name">Name</label>
                 </div>
-                <div className="p-float-label" style={{ border: '2px dashed red' }}>
+                <div className="p-float-label" >
                     <InputText value={user.surname} id="surname" name="surname" maxLength={15} className="md:w-6 w-12" onChange={handleChange} />
                     <label htmlFor="surname">Surname</label>
                 </div>
-                <div className="p-float-label" style={{ border: '2px dashed red' }}>
+                <div className="p-float-label" >
                     <Dropdown value={user.gender} id="gender" name="gender" className="md:w-6 w-12" options={genders} onChange={handleChange} />
                     <label htmlFor="gender">Gender</label>
                 </div>
