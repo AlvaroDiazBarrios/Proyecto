@@ -30,7 +30,7 @@ export const MainView = () => {
     //Página Main
     return (
         <div className="flex flex-wrap">
-            <MenuButton username={user.username} />
+            <MenuButton user={user} />
             <CharacterList characters={character} user={user} />
         </div>
     )

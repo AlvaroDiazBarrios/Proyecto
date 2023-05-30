@@ -129,6 +129,25 @@ app.post('/getPass', async (req, res) => {
     }
 })
 
+app.post('/updateUser', async (req, res) => {
+    try{
+        const {userId, name, surname, gender, username, email, password} = req.body
+
+        await db('USERS').update({
+            NAME: name,
+            SURNAME: surname,
+            GENDER: gender,
+            USERNAME: username,
+        }).where({USER_ID: userId})
+
+        res.status(200).json('Todo ok')
+
+    } catch (err) {
+        console.log(err)
+        res.status(401).json(err)
+    }
+})
+
 app.post('/login', async (req, res) => {
     try {
         const email = req.body.email;
@@ -136,8 +155,11 @@ app.post('/login', async (req, res) => {
         const user = await db('USERS').first('*').where({email: email})
         if(user) {
             res.status(200).json({
+                userId: user.USER_ID,
                 username: user.USERNAME,
-                userId: user.USER_ID
+                name: user.NAME,
+                surname: user.SURNAME,
+                gender: user.GENDER
             })
         }
     } catch(e) {

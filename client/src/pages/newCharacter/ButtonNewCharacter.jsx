@@ -12,10 +12,17 @@ export const ButtonNewCharacter = ({ user, characterInfo, skills, characteristic
 
     const navigate = useNavigate()
     const toast = useRef(null)
+
     const showError = (message) => {
         toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
     }
+
+    const showSuccess = (message) => {
+        toast.current.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
+    }
+
     const newCharacter = {
+        userId: user.userId,
         name: characterInfo.name,
         birthPlace: characterInfo.birthPlace,
         pronouns: characterInfo.pronouns,
@@ -61,9 +68,12 @@ export const ButtonNewCharacter = ({ user, characterInfo, skills, characteristic
 
         if (post) {
             try {
-                //const response = await axios.post('http://localhost:8800/updateCharacter', newCharacter)
-                //const data = response.data
-                //setCharacterBeforeChanges(newCharacter)
+                const response = await axios.post('http://localhost:8800/newCharacter', newCharacter)
+                const data = response.data
+                showSuccess(data)
+                setTimeout(() => {
+                    navigate("/main", { state: user })
+                }, 4000)
             } catch (err) {
                 console.log(err);
             }
@@ -78,7 +88,7 @@ export const ButtonNewCharacter = ({ user, characterInfo, skills, characteristic
     return (
         <div className="flex md:flex-column flex-row row-gap-3 column-gap-3 md:mr-2 mb-2"  >
             <Toast ref={toast} />
-            <MenuButton username={user.username} />
+            <MenuButton user={user} />
             <Button className="" icon={'pi pi-check'} rounded onClick={handlePost} />
             <Button severity="danger" icon='pi pi-times' rounded onClick={handleGoBack} />
         </div>

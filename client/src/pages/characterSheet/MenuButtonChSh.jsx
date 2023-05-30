@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
 //TODO:
+// Hacer el toast de todo ok tras el update
 export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, characteristics, setCharacterBeforeChanges, setCharacteristics, setSkills, setCharacterInfo, characterBeforeChanges }) => {
 
     const navigate = useNavigate()
@@ -57,7 +58,7 @@ export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, cha
 
     return (
         <div className="flex md:flex-column flex-row row-gap-3 column-gap-3 md:mr-2 mb-2"  >
-            <MenuButton username={user.username} />
+            <MenuButton user={user} />
             <Button className="" icon={edit ? 'pi pi-check' : 'pi pi-pencil'} rounded onClick={handleEdit} />
             <Button className={edit ? "" : "hidden"} icon='pi pi-times' rounded severity="danger" onClick={handleCancel} />
             <Button className={edit ? "hidden" : ""} icon='pi pi-angle-left' rounded onClick={handleGoBack} />
