@@ -2,34 +2,32 @@ import { Button } from "primereact/button"
 import { MenuButton } from "../main/MenuButton"
 import { PropTypes } from 'prop-types'
 import axios from 'axios'
-import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 //TODO:
-// Investigar porque no funciona el cancel con las characteristics
-export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter, skills, characteristics }) => {
+export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, characteristics, setCharacterBeforeChanges, setCharacteristics, setSkills, setCharacterInfo, characterBeforeChanges }) => {
 
-    const [oldCharacter, setOldCharacter] = useState(character)
     const navigate = useNavigate()
+
+    const newCharacter = {
+        characterId: characterBeforeChanges.characterId,
+        name: characterInfo.name,
+        birthPlace: characterInfo.birthPlace,
+        pronouns: characterInfo.pronouns,
+        occupation: characterInfo.occupation,
+        residence: characterInfo.residence,
+        age: characterInfo.age,
+        characteristics: characteristics,
+        skills: skills
+    }
 
     const handleEdit = async () => {
 
         if (edit) {
             try {
-                const env = {
-                    characterId: character.characterId,
-                    name: character.name,
-                    birthPlace: character.birthPlace,
-                    pronouns: character.pronouns,
-                    occupation: character.occupation,
-                    residence: character.residence,
-                    age: character.age,
-                    characteristics: characteristics,
-                    skills: character.skills
-                }
-                const response = await axios.post('http://localhost:8800/updateCharacter', env)
+                const response = await axios.post('http://localhost:8800/updateCharacter', newCharacter)
                 const data = response.data
-                setOldCharacter(env)
+                setCharacterBeforeChanges(newCharacter)
             } catch (err) {
                 console.log(err);
             }
@@ -39,8 +37,18 @@ export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter, s
     }
 
     const handleCancel = () => {
-        setCharacter(oldCharacter)
         setEdit(!edit)
+        setCharacterInfo({
+            characterId: characterBeforeChanges.characterId,
+            name: characterBeforeChanges.name,
+            birthPlace: characterBeforeChanges.birthPlace,
+            pronouns: characterBeforeChanges.pronouns,
+            occupation: characterBeforeChanges.occupation,
+            residence: characterBeforeChanges.residence,
+            age: characterBeforeChanges.age,
+        })
+        setCharacteristics(characterBeforeChanges.characteristics)
+        setSkills(characterBeforeChanges.skills)
     }
 
     const handleGoBack = () => {
@@ -48,11 +56,11 @@ export const MenuButtonChSh = ({ user, edit, setEdit, character, setCharacter, s
     }
 
     return (
-        <div className="flex flex-column "  >
+        <div className="flex md:flex-column flex-row row-gap-3 column-gap-3 md:mr-2 mb-2"  >
             <MenuButton username={user.username} />
-            <Button className="mt-2 ml-2" icon={edit ? 'pi pi-check' : 'pi pi-pencil'} rounded onClick={handleEdit} />
-            <Button className={edit ? "mt-2 ml-2" : "hidden"} icon='pi pi-times' rounded severity="danger" onClick={handleCancel} />
-            <Button className={edit ? "hidden" : "mt-2 ml-2"} icon='pi pi-angle-left' rounded onClick={handleGoBack} />
+            <Button className="" icon={edit ? 'pi pi-check' : 'pi pi-pencil'} rounded onClick={handleEdit} />
+            <Button className={edit ? "" : "hidden"} icon='pi pi-times' rounded severity="danger" onClick={handleCancel} />
+            <Button className={edit ? "hidden" : ""} icon='pi pi-angle-left' rounded onClick={handleGoBack} />
         </div>
     )
 }
@@ -61,6 +69,10 @@ MenuButtonChSh.propTypes = {
     user: PropTypes.any,
     edit: PropTypes.bool,
     setEdit: PropTypes.func,
-    character: PropTypes.any,
-    setCharacter: PropTypes.func
+    characterInfo: PropTypes.any,
+    characterBeforeChanges: PropTypes.any,
+    setCharacterBeforeChanges: PropTypes.func,
+    setCharacterInfo: PropTypes.func,
+    setCharacteristics: PropTypes.func,
+    setSkills: PropTypes.func,
 }

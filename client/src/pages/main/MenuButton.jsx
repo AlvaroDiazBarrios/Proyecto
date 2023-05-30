@@ -27,7 +27,7 @@ export const MenuButton = ({ username }) => {
 
     return (
         <>
-            <Button className='mt-2 ml-2 mr-5' icon='pi pi-bars' rounded onClick={handleMenuBar} />
+            <Button className='' icon='pi pi-bars' rounded onClick={handleMenuBar} />
             <Sidebar visible={sideBarVisibility} onHide={() => setSideBarVisibility(false)} >
                 <div className="grid">
                     <div className="col-12">

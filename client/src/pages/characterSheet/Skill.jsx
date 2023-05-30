@@ -1,18 +1,31 @@
+
 import { PropTypes } from 'prop-types'
 import { InputNumber } from 'primereact/inputnumber'
 import { Dialog } from 'primereact/dialog'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-export const Characteristic = ({ name, value, edit, setCharacteristics }) => {
+export const Skill = ({ name, value, edit, setSkills }) => {
 
     const half = Math.floor(value / 2)
     const fifth = Math.floor(value / 5)
     const [visible, setVisible] = useState(false)
     const [tirada, setTirada] = useState('')
 
+    const etiquetas = {
+        accounting: "Accounting",
+        charm: "Charm",
+        driveAuto: "Drive Auto",
+        brawl: "Brawl",
+        libraryUse: "Library Use",
+        occult: "Occult",
+        persuade: "Persuade",
+        psychology: "Psychology",
+        cthulhuMythos: "Cthulhu Mythos"
+    }
+
     const handleChange = (e, inputName) => {
         try {
-            setCharacteristics((prev) => ({ ...prev, [inputName]: e.value }))
+            setSkills((prev) => ({ ...prev, [inputName]: e.value }))
         } catch (err) {
             console.log(err)
         }
@@ -35,7 +48,7 @@ export const Characteristic = ({ name, value, edit, setCharacteristics }) => {
     return (
         <>
             <div className="flex p-inputgroup justify-content-center" >
-                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer' }}>{name}</span>
+                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer' }}>{etiquetas[name]}</span>
                 <span className="p-inputgroup-addon">
                     <InputNumber min={1} max={99} name={name} style={!edit ? { maxWidth: '60px', pointerEvents: 'none' } : { maxWidth: '60px' }} value={value} onChange={(e) => handleChange(e, name.toLowerCase())} />
                 </span>
@@ -46,16 +59,16 @@ export const Characteristic = ({ name, value, edit, setCharacteristics }) => {
                     <InputNumber name={name + 'Fifth'} style={{ maxWidth: '60px', pointerEvents: 'none' }} value={value <= 99 ? fifth : Math.floor(99 / 5)} />
                 </span>
             </div>
-            <Dialog draggable={false} visible={visible} onHide={() => { setVisible(false) }} header={name + " - Throw"} style={{ minWidth: '20vw' }}>
+            <Dialog draggable={false} visible={visible} onHide={() => { setVisible(false) }} header={etiquetas[name] + " - Throw"} style={{ minWidth: '20vw' }}>
                 <p style={{ textAlign: 'center' }}>{tirada}</p>
             </Dialog>
         </>
     )
 }
 
-Characteristic.propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+Skill.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.number,
     edit: PropTypes.bool,
-    setCharacteristics: PropTypes.func
+    setSkills: PropTypes.func
 }

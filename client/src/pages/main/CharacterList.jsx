@@ -47,6 +47,10 @@ export const CharacterList = ({ characters, user }) => {
         navigate("/characterSheet", { state: data })
     }
 
+    const handleNewCharacter = () => {
+        navigate("/newCharacter", { state: user })
+    }
+
     const footer = (character) => (
         <div className="flex flex-wrap justify-content-end gap-2">
             <Button severity='danger' icon="pi pi-trash" rounded onClick={() => confirmDelete(character)} />
@@ -55,19 +59,19 @@ export const CharacterList = ({ characters, user }) => {
     )
 
     return (
-        <div className="flex-grow-1">
+        <div className="flex-grow-1 ml-2">
             {characters.length === 0 && <Card title="Wow!" >Nothing to see here yet.</Card>}
             <div className="grid">
                 {
                     characters.map(character => (
                         <div className="col-4 gap-2" key={character.characterId}>
-                            <Card className='surface-200 border-round-md mr-2 mt-2' key={character.characterId} title={character.name} subTitle={character.surname} footer={() => footer(character)} >Descripción de hasta 100 palabras</Card>
+                            <Card className='surface-200 border-round-md mr-2 mt-2' key={character.characterId} title={character.name} subTitle={character.occupation} footer={() => footer(character)} ></Card>
                         </div>
                     ))
                 }
             </div>
             <div className="flex flex-wrap justify-content-end">
-                <Button severity='success' className='m-5' icon='pi pi-plus' rounded />
+                <Button severity='success' className='m-5' icon='pi pi-plus' rounded onClick={handleNewCharacter} />
             </div>
             <ConfirmDialog draggable={false} position='top' header="Delete confirmation" />
             <Toast ref={toast} position="bottom-left" />
