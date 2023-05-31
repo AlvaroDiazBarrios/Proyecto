@@ -47,8 +47,8 @@ export const Skill = ({ name, value, edit, setSkills }) => {
 
     return (
         <>
-            <div className="flex p-inputgroup justify-content-center" >
-                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer' }}>{etiquetas[name]}</span>
+            <div className="flex p-inputgroup justify-content-center"  >
+                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer', minWidth: '30%' }}>{etiquetas[name]}</span>
                 <span className="p-inputgroup-addon">
                     <InputNumber min={1} max={99} name={name} style={!edit ? { maxWidth: '60px', pointerEvents: 'none' } : { maxWidth: '60px' }} value={value} onChange={(e) => handleChange(e, name.toLowerCase())} />
                 </span>

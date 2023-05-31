@@ -2,7 +2,6 @@ import { Fieldset } from "primereact/fieldset"
 import { InputText } from "primereact/inputtext"
 import { Dropdown } from "primereact/dropdown"
 import { PropTypes } from 'prop-types'
-import { useEffect, useState } from "react"
 
 
 export const PersonalInformation = ({ user, setUser }) => {

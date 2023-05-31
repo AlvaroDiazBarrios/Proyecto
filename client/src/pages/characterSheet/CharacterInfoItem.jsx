@@ -21,8 +21,8 @@ export const CharacterInfoItem = ({ name, value, edit, setCharacterInfo }) => {
     }
 
     return (
-        <span className='p-float-label'>
-            <InputText style={!edit ? { pointerEvents: 'none' } : {}} id={name} name={name} value={value} onChange={handleChange} />
+        <span className='p-float-label' >
+            <InputText className='' style={!edit ? { pointerEvents: 'none' } : {}} id={name} name={name} value={value} onChange={handleChange} />
             <label htmlFor={name} >{etiquetas[name]}</label>
         </span>
     )

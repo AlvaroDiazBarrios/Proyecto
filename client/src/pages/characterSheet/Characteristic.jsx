@@ -35,7 +35,7 @@ export const Characteristic = ({ name, value, edit, setCharacteristics }) => {
     return (
         <>
             <div className="flex p-inputgroup justify-content-center" >
-                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer' }}>{name}</span>
+                <span className="p-inputgroup-addon" onClick={handleThrow} style={{ cursor: 'pointer', minWidth: '30%' }}>{name}</span>
                 <span className="p-inputgroup-addon">
                     <InputNumber min={1} max={99} name={name} style={!edit ? { maxWidth: '60px', pointerEvents: 'none' } : { maxWidth: '60px' }} value={value} onChange={(e) => handleChange(e, name.toLowerCase())} />
                 </span>

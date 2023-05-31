@@ -12,7 +12,7 @@ export const CharacterInformation = ({ edit, characterInfo, setCharacterInfo }) 
 
     return (
         <Fieldset legend="Character Info" >
-            <div className="flex md:flex-row row-gap-5 flex-column mt-3 justify-content-evenly ">
+            <div className="flex md:flex-row row-gap-5 flex-column mt-3 justify-content-evenly flex-wrap ">
                 <CharacterInfoItem edit={edit} name='name' value={characterInfo.name} setCharacterInfo={setCharacterInfo} />
                 <CharacterInfoItem edit={edit} name='birthPlace' value={characterInfo.birthPlace} setCharacterInfo={setCharacterInfo} />
                 <CharacterInfoItem edit={edit} name='pronouns' value={characterInfo.pronouns} setCharacterInfo={setCharacterInfo} />
