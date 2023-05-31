@@ -48,8 +48,8 @@ export const NewCharacter = () => {
         <div className="characterSheet">
             <div className="flex flex-column flex-wrap" >
 
-                <div className="flex md:flex-row flex-column m-2" >
-                    <div className="flex mb-2">
+                <div className="flex md:flex-row flex-column m-2 " >
+                    <div className="flex mb-2 ">
                         <ButtonNewCharacter characterInfo={characterInfo} skills={skills} characteristics={characteristics} user={user} />
                     </div>
                     <div className="flex flex-column flex-grow-1">
