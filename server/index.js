@@ -65,7 +65,7 @@ app.post('/updateCharacter', async (req, res) => {
             SKILLS: JSON.stringify(skills)
         }).where({CHARACTER_ID: characterId})
 
-        res.status(200).json('Todo ok')
+        res.status(200).json('Character Updated Succesfully')
     } catch (err){
         res.status(400).json(err)
     }

@@ -3,12 +3,17 @@ import { MenuButton } from "../main/MenuButton"
 import { PropTypes } from 'prop-types'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
+import { useRef } from "react"
+import { Toast } from "primereact/toast"
 
-//TODO:
-// Hacer el toast de todo ok tras el update
 export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, characteristics, setCharacterBeforeChanges, setCharacteristics, setSkills, setCharacterInfo, characterBeforeChanges }) => {
 
     const navigate = useNavigate()
+    const toast = useRef(null)
+
+    const showError = (message) => {
+        toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
+    }
 
     const newCharacter = {
         characterId: characterBeforeChanges.characterId,
@@ -24,17 +29,48 @@ export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, cha
 
     const handleEdit = async () => {
 
-        if (edit) {
+        let post = true
+
+        if (!newCharacter.name) {
+            showError("Name cannot be empty.")
+            post = false
+        }
+
+        if (!newCharacter.birthPlace) {
+            showError("Place of Birth cannot be empty.")
+            post = false
+        }
+
+        if (!newCharacter.pronouns) {
+            showError("Pronouns cannot be empty.")
+            post = false
+        }
+
+        if (!newCharacter.occupation) {
+            showError("Occupation cannot be empty.")
+            post = false
+        }
+
+        if (!newCharacter.residence) {
+            showError("Residence cannot be empty.")
+            post = false
+        }
+
+        if (!newCharacter.age) {
+            showError("Age cannot be empty.")
+            post = false
+        }
+
+        if (edit && post) {
             try {
                 const response = await axios.post('http://localhost:8800/updateCharacter', newCharacter)
-                const data = response.data
                 setCharacterBeforeChanges(newCharacter)
             } catch (err) {
                 console.log(err);
             }
         }
-
         setEdit(!edit)
+
     }
 
     const handleCancel = () => {
@@ -62,6 +98,7 @@ export const MenuButtonChSh = ({ user, edit, setEdit, characterInfo, skills, cha
             <Button className="" icon={edit ? 'pi pi-check' : 'pi pi-pencil'} rounded onClick={handleEdit} />
             <Button className={edit ? "" : "hidden"} icon='pi pi-times' rounded severity="danger" onClick={handleCancel} />
             <Button className={edit ? "hidden" : ""} icon='pi pi-angle-left' rounded onClick={handleGoBack} />
+            <Toast ref={toast} />
         </div>
     )
 }
