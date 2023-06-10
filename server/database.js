@@ -3,10 +3,10 @@ import knex from 'knex'
 export const db = knex({
     client: 'mysql',
     connection: {
-      host : 'localhost',
+      host : 'mysql-db',
       user : 'root',
       password : 'root',
       database : 'project',
-      port: '6060'
+      port: '3306'
     }
 }) 

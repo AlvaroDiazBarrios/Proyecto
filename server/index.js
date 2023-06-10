@@ -44,7 +44,7 @@ app.post('/newCharacter', async (req, res) => {
             SKILLS: JSON.stringify(skills)
         })
 
-        res.status(200).json('Todo ok')
+        res.status(200).json('Character created succesfully!')
     } catch (err){
         res.status(400).json(err)
     }

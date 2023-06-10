@@ -39,7 +39,7 @@ export const CharacterCard = ({ characters, user }) => {
             const response = await axios.post("http://localhost:8800/deleteCharacter", { characterId: character.characterId })
             showSuccess(response.data)
             setTimeout(() => {
-                window.location.reload()
+                window.location.href = "http://localhost/main"
             }, 4000)
         } catch (err) {
             console.log(err);

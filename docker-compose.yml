@@ -1,6 +1,7 @@
 version: "3.4"
 
-x-common-variables: &common-variables
+x-common-variables:
+  &common-variables
   MYSQL_USER: usuario
   MYSQL_PASSWORD: usuario
 
@@ -10,13 +11,16 @@ services:
     container_name: mysql_container
     environment:
       <<: *common-variables
-      MYSQL_HOST: localhost
+      MYSQL_HOST: mysql-db
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 6060:3306
     restart: unless-stopped
     volumes:
       - ./db/sample.sql:/var/lib/mysql
+    networks:
+      - my-network
+
   phpmyadmin:
     depends_on:
       - mysql-db
@@ -24,8 +28,33 @@ services:
     container_name: phpadmin_container
     environment:
       PMA_HOST: mysql-db
-    links:
-      - mysql-db:mysql-db
     ports:
       - 8080:80
     restart: always
+    networks:
+      - my-network
+
+  servidor-react:
+    build:
+      context: ../Proyecto/server
+      dockerfile: Dockerfile
+    container_name: servidor
+    ports:
+      - 8800:8800
+    restart: unless-stopped
+    networks:
+      - my-network
+
+  cliente-react:
+    build:
+      context: ../Proyecto/client
+      dockerfile: Dockerfile
+    container_name: cliente
+    ports:
+      - 80:80
+    restart: unless-stopped
+
+networks:
+  my-network:
+
+
