@@ -1,16 +1,12 @@
 version: "3.4"
 
-x-common-variables:
-  &common-variables
-  MYSQL_USER: usuario
-  MYSQL_PASSWORD: usuario
-
 services:
   mysql-db:
     image: mysql:5.7
     container_name: mysql_container
     environment:
-      <<: *common-variables
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: usuario
       MYSQL_HOST: mysql-db
       MYSQL_ROOT_PASSWORD: root
     ports:
