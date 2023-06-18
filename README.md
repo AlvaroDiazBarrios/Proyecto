@@ -6,7 +6,7 @@
 ## Lanzamiento
   Para probar esta apliacación tan solo deberán clonar y lanzar la aplicación mediante docker compose.
 ```bash
-git clone https://github.com/AlvaroDiazBarrios/Proyecto_Final_Fp
+git clone https://github.com/AlvaroDiazBarrios/Proyecto_Final_Fp.git
 cd Proyecto_Final_Fp
 docker-compose up -d
 ```
